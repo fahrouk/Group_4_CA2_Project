@@ -24,3 +24,33 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                
+                <div class="modal-body">
+                    <div id="shoppingCart">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Book</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Unit Price</th>
+                                                <th scope="col">Sub Total</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if shopLen != 0 %}
+                                            {% for i in range(shopLen) %}
+                                            <tr>
+                                                <th scope="row">{{ i + 1 }}</th>
+                                                <td><img src="/static/Images/{{ shoppingCart[i]["image"] }}" width="30px" alt="{{ shoppingCart[i]["team"] }}" /></td>
+                                                <td>{{ shoppingCart[i]['SUM(qty)'] }}</td>
+                                                <td>{{ '${:,.2f}'.format(shoppingCart[i]["price"]) }}</td>
+                                                <td>{{ '${:,.2f}'.format(shoppingCart[i]['SUM(subTotal)']) }}</td>
+                                            </tr>
+                                        </tbody>
+                                        {% endfor %}
+
