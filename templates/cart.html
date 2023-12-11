@@ -51,3 +51,41 @@ Readers Paradise - Cart
                             </td>
                           </tr>
                         </tbody>
+                        {% endfor %}
+                        <tfoot>
+                            <tr>
+                              <td colSpan="7">Total: {{ '${:,.2f}'.format(total) }}<br /><br />
+                                <div class="modal-footer">
+                                  <a href="/"><button type="button" class="btn btn-primary checkout">Continue Shopping</button></a>
+                                  <a href="/checkout/"><button type="button" class="btn btn-success checkout">Proceed to Checkout</button></a>
+                                </div>
+                              </td>
+                            </tr>
+                          </tfoot>
+                          {% else %}
+                      <tr>
+                        <td colSpan="7"><h3>Shopping cart is empty :</h3></td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colSpan="7">Get some books now!<br />
+                          <div>
+                            <a href="/"><button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button></a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tfoot>
+                    {% endif %}
+
+                </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
