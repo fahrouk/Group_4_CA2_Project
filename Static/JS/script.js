@@ -17,3 +17,21 @@ $(".target").on("click", function () {
 
         $button.parent().find("input").val(newVal);
     });
+
+$('.addToCart').on("click", function (event) {
+    if ($(this).prev().prev().prev().find("input").val() == '0') {
+        event.preventDefault();
+        $(this).next().next().next().html("please select at least one book");
+        $(this).next().next().next().css("display", "block");
+        $(this).next().next().next().delay(3000).slideUp();
+    }
+
+    if ($(this).prev().val() == "0") {
+        event.preventDefault();
+        $(this).next().next().next().html("Please log in order to purchase");
+        $(this).next().next().next().css("display", "block");
+        $(this).next().next().next().delay(3000).slideUp();
+    }
+});
+
+$(".flashMessage").delay(3000).slideUp();
