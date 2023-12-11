@@ -6,3 +6,14 @@ $(".target").on("click", function () {
         if ($button.text() == '+') {
             newVal = oldVal + 1;
         }
+        else {
+            if (oldVal > 0) {
+                newVal = oldVal - 1;
+            }
+            else {
+                newVal = 0;
+            }
+        }
+
+        $button.parent().find("input").val(newVal);
+    });
