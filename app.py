@@ -33,3 +33,58 @@ def index():
 
 @app.route("/login/", methods=["GET"])
 def login():
+    return render_template("login.html")
+
+@app.route("/signup/", methods=["GET"])
+def signup():
+    return render_template("signup.html")
+
+@app.route("/register/", methods=["GET"])
+def registration():
+    uname = request.form["uname"]
+    pwd = request.form["pwd"]
+    fname = request.form["fname"]
+    lname = request.form["lname"]
+    email = request.form["email"]
+    rows = db.execute( "SELECT * FROM users WHERE username = :username ", username = uname )    
+    if len( rows ) > 0:
+        return render_template ( "signup.html", msg="Username already exists!" )    
+    new = db.execute ( "INSERT INTO users (username, password, fname, lname, email) VALUES (:uname, :pwd, :fname, :lname, :email)",
+                    username=uname, password=pwd, fname=fname, lname=lname, email=email )    
+    return render_template ( "login.html" )
+
+@app.route("/logout/")
+def logout():
+    db.execute("delete from cart")
+    session.clear()
+    return redirect("/")
+
+@app.route("/logged/", methods=["POST"] )
+def logged():
+    user = request.form["uname"].lower()
+    pwd = request.form["pwd"]
+    if user == "" or pwd == "":
+        return render_template ( "login.html" )
+    query = "SELECT * FROM users WHERE username = :user AND password = :pwd"
+    rows = db.execute ( query, user=user, pwd=pwd )
+
+    if len(rows) == 1:
+        session['user'] = user
+        session['time'] = datetime.now( )
+        session['uid'] = rows[0]["id"]
+
+    if 'user' in session:
+        return redirect ( "/" )
+    return render_template ( "login.html", msg="invalid username or password." )
+       
+@app.route("/purchase_history/")
+def history():
+    shoppingCart = []
+    shopLen = len(shoppingCart)
+    totItems=0
+    total=0
+    display=0
+    myBooks = db.execute("SELECT * FROM purchases WHERE uid=:uid", uid=session["uid"])
+    myBooksLen = len(myBooks)
+    return render_template("purchase_history.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, myBooks=myBooks, myBooksLen=myBooksLen)
+
