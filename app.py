@@ -87,7 +87,7 @@ def history():
     myBooks = db.execute("SELECT * FROM purchases WHERE uid=:uid", uid=session["uid"])
     myBooksLen = len(myBooks)
     return render_template("purchase_history.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, myBooks=myBooks, myBooksLen=myBooksLen)
-    @app.route("/cart/")
+@app.route("/cart/")
 def cart():
     if 'user' in session:
         totItems, total, display = 0, 0, 0
@@ -97,7 +97,7 @@ def cart():
             total += shoppingCart[i]["SUM(subTotal)"]
             totItems += shoppingCart[i]["SUM(qty)"]    
     return render_template("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session)
-    @app.route("/remove/", methods=["GET"])
+@app.route("/remove/", methods=["GET"])
 def remove():
      out = int(request.args.get("id"))
      db.execute("DELETE from cart WHERE id=:id", id=out)
@@ -139,7 +139,29 @@ def filter():
         return render_template ("index.html", shoppingCart=shoppingCart, books=books, shopLen=shopLen, booksLen=booksLen, total=total, totItems=totItems, display=display, session=session )
     
     return render_template ( "index.html", books=books, shoppingCart=shoppingCart, booksLen=booksLen, shopLen=shopLen, total=total, totItems=totItems, display=display)
-
-
-
-
+@app.route("/buy/")
+def buy():
+    shoppingCart = []
+    shopLen = len(shoppingCart)
+    totItems, total, display = 0, 0, 0
+    qty = int(request.args.get('quantity'))
+    if session:
+        id = int(request.args.get('id'))
+        goods = db.execute("SELECT * FROM books WHERE id = :id", id=id)
+        
+        if(goods[0]["onSale"] == 1):
+            price = goods[0]["onSalePrice"]
+        else:
+            price = goods[0]["price"]
+        image = goods[0]["image"]
+        subTotal = qty * price
+        db.execute("INSERT INTO cart (id, qty, image, price, subTotal) VALUES (:id, :qty, :image, :price, :subTotal)", id=id, qty=qty, image=image, price=price, subTotal=subTotal)
+        shoppingCart = db.execute("SELECT image, SUM(qty), SUM(subTotal), price, id FROM cart")
+        shopLen = len(shoppingCart)
+        for i in range(shopLen):
+            total += shoppingCart[i]["SUM(subTotal)"]
+            totItems += shoppingCart[i]["SUM(qty)"]
+        books = db.execute("SELECT * FROM books")
+        booksLen = len(books)
+     
+        return render_template ("index.html", shoppingCart=shoppingCart, books=books, shopLen=shopLen, booksLen=booksLen, total=total, totItems=totItems, display=display, session=session )
