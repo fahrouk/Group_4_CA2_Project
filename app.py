@@ -165,3 +165,37 @@ def buy():
         booksLen = len(books)
      
         return render_template ("index.html", shoppingCart=shoppingCart, books=books, shopLen=shopLen, booksLen=booksLen, total=total, totItems=totItems, display=display, session=session )
+@app.route("/update/")
+def update():
+    shoppingCart = []
+    shopLen = len(shoppingCart)
+    totItems, total, display = 0, 0, 0
+    qty = int(request.args.get('quantity'))
+    if session:
+        id = int(request.args.get('id'))
+        db.execute("DELETE FROM cart WHERE id = :id", id=id)
+     
+        bookitems = db.execute("SELECT * FROM books WHERE id = :id", id=id)
+       
+        if(bookitems[0]["onSale"] == 1):
+            price = bookitems[0]["onSalePrice"]
+        else:
+            price = bookitems[0]["price"]
+        team = bookitems[0]["team"]
+        image = bookitems[0]["image"]
+        subTotal = qty * price
+       
+        db.execute("INSERT INTO cart (id, qty,image, price, subTotal) VALUES (:id, :qty,:image, :price, :subTotal)", id=id, qty=qty, image=image, price=price, subTotal=subTotal)
+        shoppingCart = db.execute("SELECT image, SUM(qty), SUM(subTotal), price, id FROM cart")
+        shopLen = len(shoppingCart)
+   
+        for i in range(shopLen):
+            total += shoppingCart[i]["SUM(subTotal)"]
+            totItems += shoppingCart[i]["SUM(qty)"]
+       
+        return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session )
+
+
+if __name__ == '__main__':
+    locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
+    app.run()
