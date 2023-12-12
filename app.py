@@ -109,6 +109,37 @@ def remove():
         totItems += shoppingCart[i]["SUM(qty)"]
      display = 1
      return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session)
+    @app.route("/filter/")
+def filter():
+    if request.args.get('sale'):
+        query = request.args.get('sale')
+        books = db.execute("SELECT * FROM books WHERE onSale = :query", query=query)
+    
+    if request.args.get('kind'):
+        query = request.args.get('kind')
+        books = db.execute("SELECT * FROM books WHERE kind = :query", query=query)
+        
+    if request.args.get('price'):
+        query = request.args.get('price')
+        books = db.execute("SELECT * FROM books")
+        
+    booksLen = len(books)
+    
+    shoppingCart = []
+    shopLen = len(shoppingCart)
+    totItems, total, display = 0, 0, 0
+    if 'user' in session:
+        
+        shoppingCart = db.execute("SELECT image, SUM(qty), SUM(subTotal), price, id FROM cart")
+        shopLen = len(shoppingCart)
+        for i in range(shopLen):
+            total += shoppingCart[i]["SUM(subTotal)"]
+            totItems += shoppingCart[i]["SUM(qty)"]
+        
+        return render_template ("index.html", shoppingCart=shoppingCart, books=books, shopLen=shopLen, booksLen=booksLen, total=total, totItems=totItems, display=display, session=session )
+    
+    return render_template ( "index.html", books=books, shoppingCart=shoppingCart, booksLen=booksLen, shopLen=shopLen, total=total, totItems=totItems, display=display)
+
 
 
 
