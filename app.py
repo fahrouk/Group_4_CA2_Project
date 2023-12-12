@@ -97,5 +97,18 @@ def cart():
             total += shoppingCart[i]["SUM(subTotal)"]
             totItems += shoppingCart[i]["SUM(qty)"]    
     return render_template("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session)
+    @app.route("/remove/", methods=["GET"])
+def remove():
+     out = int(request.args.get("id"))
+     db.execute("DELETE from cart WHERE id=:id", id=out)
+     totItems, total, display = 0, 0, 0
+     shoppingCart = db.execute("SELECT image, SUM(qty), SUM(subTotal), price, id FROM cart")
+     shopLen = len(shoppingCart)
+     for i in range(shopLen):
+        total += shoppingCart[i]["SUM(subTotal)"]
+        totItems += shoppingCart[i]["SUM(qty)"]
+     display = 1
+     return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session)
+
 
 
