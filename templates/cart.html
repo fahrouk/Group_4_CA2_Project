@@ -1,6 +1,6 @@
 {% extends "base_template.html" %}
 {% block title %}
-Readers Paradise - Cart
+GYM SHARK - Cart
 {% endblock %}
 
 {% block body %}
@@ -22,7 +22,7 @@ Readers Paradise - Cart
                       <thead>
                         <tr>
                           <th scope="col">#</th>
-                          <th scope="col">Book</th>
+                          <th scope="col">Equipment</th>
                           <th scope="col">Quantity</th>
                           <th scope="col">Unit Price</th>
                           <th scope="col">Sub-Total</th>
@@ -30,8 +30,8 @@ Readers Paradise - Cart
                         </tr>
                       </thead>
                       <tbody>
-                        {% if booksLen != 0 %}
-                        {% for i in range(booksLen) %}
+                        {% if gymLen != 0 %}
+                        {% for i in range(gymLen) %}
                           <tr>
                             <th scope="row">{{ i + 1 }}</th>
                             <td><img src="/Static/Images/{{ shoppingCart[i]["image"] }}" width="30px" alt="{{ shoppingCart[i]["team"] }}" /></td>
@@ -69,7 +69,7 @@ Readers Paradise - Cart
                     </tbody>
                     <tfoot>
                       <tr>
-                        <td colSpan="7">Get some books now!<br />
+                        <td colSpan="7">Get some gym now!<br />
                           <div>
                             <a href="/"><button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button></a>
                           </div>
@@ -85,6 +85,10 @@ Readers Paradise - Cart
       </div>
     </div>
   </div>
+</div>
+</div>
+
+{% endblock %}
 </div>
 </div>
 
