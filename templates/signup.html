@@ -12,21 +12,23 @@
     <link href="{{ url_for('Static',filename='CSS/styles.css') }}" rel="stylesheet" type="text/css" />
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <title> Readers Paradise - Sign Up </title>
+    <title> GYM SHARK - Sign Up </title>
 </head>
     <body>
         <header>
-
             <nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-sm box-shadow">
                 <a href="/" class="navbar-brand d-flex align-items-center">
-                    <strong><i class="far fa-futbol"></i>Readers Paradise - Sign Up</strong>
-                    </a></nav><br/></header><br />
+                    <strong>
+                        <i class="far fa-futbol"></i>GYM SHARK - Sign Up</strong>
+                </a>
+            </nav><br/>
+        </header><br/>
                     
                     <main>
                         <div class="container">
                             <div class="row">
                                 <div class="col-sm">
-                                    <h2>Register</h2>
+                                    <h3>Register</h3>
                                     <p>{{msg}}</p>
                                     <form action="/register/" class="form" method="post">
                                         <input type="text" name="uname" id="uname" placeholder="User Name" autofocus required> <span id="user-msg" class="alert alert-danger"></span><br /><br />
@@ -36,10 +38,12 @@
                                         <input type="text" name="lname" id="lname" placeholder="Last Name" required> <span id="lname-msg" class="alert alert-danger"></span><br /><br />
                                         <input type="email" name="email" id="email" placeholder="Email Address" required> <span id="email-msg" class="alert alert-danger"></span><br /><br /><br />
                                         <button type="reset" class="btn btn-secondary">Clear</button>
-                                        <button type="submit" id="submit" class="btn btn-primary">Sign Up</button>
+                                        <button type="submit" id="submit" class="btn btn-secondary">Sign Up</button>
                                     </form>
-                                </div></div></div></main>
-        
+                                </div>
+                            </div>
+                        </div>
+                    </main>
         <script src="{{ url_for('static',filename='JS/validation.js') }}"></script>
     </body>
 </html>
