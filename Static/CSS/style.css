@@ -102,8 +102,24 @@ header {
         margin: 0 12px;
         border-radius: 2px;
         border: 1px solid #222;
-        
 }
+  /* Centering the div content */
+  .styled-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Adjust height as needed */
+    background-color: #f0f0f0; /* Background color */
+  }
+  
+  /* Styling the paragraph text */
+  .styled-div p {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    color: #333; /* Text color */
+    /* Additional styles such as font-family, margin, etc. can be added here */
+  }
 
 tr {
     text-align: center;
