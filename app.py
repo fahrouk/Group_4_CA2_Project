@@ -21,6 +21,31 @@ def login():
 def signup():
     return render_template("signup.html")
 
+@app.route("/register/", methods=["POST"])
+def registration():
+    if request.method == "POST":
+        uname = request.form["uname"]
+        pwd = request.form["pwd"]
+        fname = request.form["fname"]
+        lname = request.form["lname"]
+        email = request.form["email"]
+
+        # Check if the username already exists
+        rows = db.execute("SELECT * FROM users WHERE username = :username", username=uname)
+        if len(rows) > 0:
+            return render_template("signup.html", msg="Username already exists!")
+
+        # Insert new user into the database
+        new = db.execute(
+            "INSERT INTO users (username, password, fname, lname, email) VALUES (:uname, :pwd, :fname, :lname, :email)",
+            uname=uname, pwd=pwd, fname=fname, lname=lname, email=email
+        )
+
+        return render_template("login.html")
+
+    # If not a POST request, redirect to the signup page
+    return redirect(url_for("signup"))
+
 @app.route("/")
 def index():
     books = db.execute("select * FROM books")
