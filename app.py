@@ -46,48 +46,6 @@ def registration():
     # If not a POST request, redirect to the signup page
     return redirect(url_for("signup"))
 
-@app.route("/")
-def index():
-    books = db.execute("select * FROM books")
-    booksLen = len(books)
-    shoppingCart = []
-    shopLen = len(shoppingCart)
-    totItems= 0
-    total=0
-    display=0
-    if 'user' in session:
-        shoppingCart = db.execute("select image, SUM(qty), SUM(subTotal), price, id FROM cart")
-        shopLen = len(shoppingCart)
-        for i in range(shopLen):
-            total += shoppingCart[i]["SUM(subTotal)"]
-            totItems += shoppingCart[i]["SUM(qty)"]
-        books = db.execute("SELECT * FROM books")
-        booksLen = len(books)
-        return render_template ("index.html", shoppingCart=shoppingCart, books=books, shopLen=shopLen, booksLen=booksLen, total=total, totItems=totItems, display=display, session=session )
-    return render_template ("index.html", books=books, shoppingCart=shoppingCart, booksLen=booksLen, shopLen=shopLen, total=total, totItems=totItems, display=display)
-
-@app.route("/login/", methods=["GET"])
-def login():
-    return render_template("login.html")
-
-@app.route("/signup/", methods=["GET"])
-def signup():
-    return render_template("signup.html")
-
-@app.route("/register/", methods=["GET"])
-def registration():
-    uname = request.form["uname"]
-    pwd = request.form["pwd"]
-    fname = request.form["fname"]
-    lname = request.form["lname"]
-    email = request.form["email"]
-    rows = db.execute( "SELECT * FROM users WHERE username = :username ", username = uname )    
-    if len( rows ) > 0:
-        return render_template ( "signup.html", msg="Username already exists!" )    
-    new = db.execute ( "INSERT INTO users (username, password, fname, lname, email) VALUES (:uname, :pwd, :fname, :lname, :email)",
-                    username=uname, password=pwd, fname=fname, lname=lname, email=email )    
-    return render_template ( "login.html" )
-
 @app.route("/logout/")
 def logout():
     db.execute("delete from cart")
