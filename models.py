@@ -7,3 +7,10 @@ class Cart(db.Model):
     price = db.Column(db.Float)
     subTotal = db.Column(db.Float)
 
+class Purchases(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.Text)
+    image = db.Column(db.Text)
+    quantity = db.Column(db.Integer)
+    date = db.Column(db.Date)
+
