@@ -14,3 +14,18 @@ class Purchases(db.Model):
     quantity = db.Column(db.Integer)
     date = db.Column(db.Date)
 
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.Text, unique=True, nullable=False)
+    password = db.Column(db.Text, nullable=False)
+    fname = db.Column(db.Text)
+    lname = db.Column(db.Text)
+    email = db.Column(db.Text, unique=True, nullable=False)
+
+class Gym(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.Text)
+    price = db.Column(db.Float)
+    onSale = db.Column(db.Float)
+    onSalePrice = db.Column(db.Float)
+    kind = db.Column(db.Text)
