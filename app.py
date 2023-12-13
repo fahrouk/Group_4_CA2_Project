@@ -72,4 +72,32 @@ def logged():
         # Redirect to the home page or any other desired page
         return redirect(url_for('index'))
     return render_template ( "login.html", msg="invalid username or password." )
+
+@app.route("/")
+def index():
+    check= db.execute("SELECT * FROM gym WHERE kind = :value",value="5KG-Dumbell")
+    print(check)
+    gym = db.execute("select * FROM gym")
+    gymLen = len(gym)
+    shoppingCart = []
+    shopLen1 = len(shoppingCart)
+    print(shopLen1)
+    totItems= 0
+    total=0
+    display=0
+    if 'user' in session:
+        shoppingCart = db.execute("select image, SUM(qty), SUM(subTotal), price, id FROM cart")
+        print(shoppingCart)
+        shopLen = len(shoppingCart)
+        print(shopLen)
+        if any(cart_item['image'] is not None for cart_item in shoppingCart):
+            print(shopLen)
+            for i in range(shopLen):
+                total += shoppingCart[i]["SUM(subTotal)"]
+                totItems += shoppingCart[i]["SUM(qty)"]
+            gym = db.execute("SELECT * FROM gym")
+            gymLen = len(gym)
+            return render_template ("index.html", gym=gym, shoppingCart=shoppingCart, gymLen=gymLen, shopLen=shopLen, total=total, totItems=totItems, display=display)
+    return render_template ("index.html", gym=gym, shoppingCart=shoppingCart, gymLen=gymLen, shopLen=shopLen1, total=total, totItems=totItems, display=display)
+
        
