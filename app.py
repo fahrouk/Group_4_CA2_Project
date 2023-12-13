@@ -11,7 +11,12 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.secret_key = "CA2_Project"
 Session(app)
-db = SQL ( "sqlite:///data.db" )
+db = SQL ("sqlite:///data.db")
+
+@app.route("/login/", methods=["GET"])
+def login():
+    return render_template("login.html")
+
 @app.route("/")
 def index():
     books = db.execute("select * FROM books")
