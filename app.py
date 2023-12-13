@@ -17,6 +17,10 @@ db = SQL ("sqlite:///data.db")
 def login():
     return render_template("login.html")
 
+@app.route("/signup/", methods=["GET"])
+def signup():
+    return render_template("signup.html")
+
 @app.route("/")
 def index():
     books = db.execute("select * FROM books")
