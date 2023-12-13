@@ -198,4 +198,4 @@ def update():
 
 if __name__ == '__main__':
     locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
-    app.run()
+    app.run(port=8080, debug = True)
