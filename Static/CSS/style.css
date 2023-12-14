@@ -20,7 +20,6 @@
 header {
     margin-bottom: 45px;
 }
-
 .price {
     color: rgb(25, 104, 59);
     font-weight: bold;    
@@ -74,12 +73,12 @@ header {
         text-align: center;
     }
 
-    .book{
+    .gym{
         margin-bottom: 10px;
     width: 200px;
     }
 
-    .bookcart{
+    .gymcart{
         width: 25px;
     }
 
