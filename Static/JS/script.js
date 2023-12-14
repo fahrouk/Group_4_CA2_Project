@@ -21,7 +21,7 @@ $(".target").on("click", function () {
 $('.addToCart').on("click", function (event) {
     if ($(this).prev().prev().prev().find("input").val() == '0') {
         event.preventDefault();
-        $(this).next().next().next().html("please select at least one book");
+        $(this).next().next().next().html("please select at least one gym equipments");
         $(this).next().next().next().css("display", "block");
         $(this).next().next().next().delay(3000).slideUp();
     }
